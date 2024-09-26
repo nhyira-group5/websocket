@@ -1,7 +1,7 @@
 variable "az" {
   description = "Availability Zone"
   type        = string
-  default     = "us-east-1b"
+  default     = "use1-az1"
 }
 
 variable "key_pair_name" {

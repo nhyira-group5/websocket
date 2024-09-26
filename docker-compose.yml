@@ -1,0 +1,12 @@
+version: '3.8' 
+
+services:
+  websocket:
+    build:
+      context: .  
+    ports:
+      - "3001:3001"  
+    environment:
+      - NODE_ENV=production  
+    volumes:
+      - .:/app  

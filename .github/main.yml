@@ -1,0 +1,43 @@
+name: CI/CD Node.js Express - Foodway
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-to-aws:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./infraNhyira/moduleEc2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+
+      - name: Deploy to EC2
+        run: |
+          # Copie os arquivos para o EC2 (ajuste o caminho conforme necessário)
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} -r ./infraNhyira/moduleEc2 ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/home/ec2-user/app
+
+          # Conecte-se ao EC2 e inicie o servidor
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+            cd /home/ec2-user/app
+            npm install   # Instala dependências na instância
+            npm start     # Inicia o servidor Express
+          EOF

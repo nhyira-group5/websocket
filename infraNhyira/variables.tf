@@ -25,7 +25,7 @@ variable "inst_type" {
 variable "subnet_id" {
   description = "Subnet ID"
   type        = string
-  default     = "subnet-064d97d9e621c39db"  # Atualize com o ID da sub-rede correta
+  default     = "subnet-03538fa6c1081c33b"  # Atualize com o ID da sub-rede correta
 }
 
 variable "sg_id" {

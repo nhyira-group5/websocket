@@ -1,4 +1,4 @@
-name: CI/CD Node.js Express - Foodway
+name: CI/CD Frontend - Foodway
 
 on:
   push:
@@ -14,14 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
         with:
-          node-version: '16'  
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./infraNhyira
+          terraform_version: 1.2.0
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -31,14 +27,18 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Deploy to EC2
-        run: |
-          # Copie os arquivos para o EC2
-          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} -r ./infraNhyira ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/home/ec2-user/app
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./infraNhyira
 
-          # Conecte-se ao EC2 e inicie o servidor
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            cd /home/ec2-user/app
-            npm install   # Instala dependências na instância
-            npm start     # Inicia o servidor Express
-          EOF
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./infraNhyira
+
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ./infraNhyira
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: ./infraNhyira

@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: List files
+        run: ls -R ./infraNhyira/
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -21,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./infraNhyira/moduleEc2
+        working-directory: ./infraNhyira  # Ajustado para a pasta correta
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -33,7 +36,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           # Copie os arquivos para o EC2 (ajuste o caminho conforme necessário)
-          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} -r ./infraNhyira/moduleEc2 ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/home/ec2-user/app
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} -r ./infraNhyira ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/home/ec2-user/app
 
           # Conecte-se ao EC2 e inicie o servidor
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY_PAIR }} ec2-user@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'

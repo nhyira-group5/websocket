@@ -13,7 +13,7 @@ variable "key_pair_name" {
 variable "ami" {
   description = "AMI ID"
   type        = string
-  default     = "ami-0ca4ccec8a47bfad6"  # Verifique se esta AMI é adequada para seu uso
+  default     = "ami-08c6a39626fa63ad7"  # Verifique se esta AMI é adequada para seu uso
 }
 
 variable "inst_type" {
@@ -31,5 +31,5 @@ variable "subnet_id" {
 variable "sg_id" {
   description = "Security Group ID"
   type        = string
-  default     = "sg-0a69c3d9f7fc1fed6"  # Atualize com o ID do grupo de segurança correto
+  default     = "sg-041d7ba94beddfa4e"  # Atualize com o ID do grupo de segurança correto
 }

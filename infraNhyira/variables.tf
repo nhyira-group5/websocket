@@ -1,7 +1,7 @@
-variable "az" {
-  description = "Availability Zone"
-  type        = string
-  default     = "use1-az1"
+variable "az" {  
+  description = "Availability Zone"  
+  type        = string  
+  default     = "us-east-1a"  # Ajuste para a zona de disponibilidade correta  
 }
 
 variable "key_pair_name" {

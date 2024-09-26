@@ -1,4 +1,4 @@
-name: CI/CD Frontend - Foodway
+name: CI/CD WebSocket - Nhyira
 
 on:
   push:

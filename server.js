@@ -63,10 +63,10 @@ io.on('connection', socket => {
       io.to(chat.id).emit('userDisconnected', user.username);
     });
 
-    // Remove user from connected users list
+   
     userConnected = userConnected.filter(u => u !== user);
 
-    // Emit updated user list
+ 
     io.emit('userConnected', userConnected);
   });
 });

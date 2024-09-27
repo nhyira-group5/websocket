@@ -50,10 +50,6 @@ resource "aws_instance" "websocket_ec2_01" {
     # Iniciar a aplicação com PM2 (ajuste o nome do arquivo conforme necessário)
     pm2 start /home/ubuntu/websocket/server.js --name websocket-app
 
-    # Configurar o PM2 para iniciar na inicialização do sistema
-    pm2 startup
-    pm2 save
-  EOF
 }
 
 resource "aws_instance" "websocket_ec2_02" {

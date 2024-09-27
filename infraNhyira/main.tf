@@ -95,10 +95,10 @@ resource "aws_instance" "websocket_ec2_02" {
     sudo apt-get install -y nodejs npm
 
     # Clonar o repositório
-    git clone https://github.com/Food-Way/Web.git
+    git clone https://github.com/nhyira-group5/websocket.git
 
     # Navegar até o diretório do repositório clonado
-    cd /home/ubuntu/Web/foodway
+    cd /home/ubuntu/websocket
 
     # Instalar dependências
     sudo npm i --force

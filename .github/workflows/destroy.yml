@@ -1,5 +1,5 @@
 
-name: Destroy Frontend Infrastructure - Foodway
+name: Destroy WebSocket Infrastructure - Nhyira
 
 on:
   workflow_dispatch:

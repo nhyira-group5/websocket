@@ -73,32 +73,43 @@ resource "aws_instance" "websocket_ec2_02" {
     #!/bin/bash
 
     # Atualizar pacotes
-    sudo apt-get update -y
+    sudo apt-get update
 
-    # Instalar Node.js e npm
-    sudo apt-get install -y curl
-    curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-
-    # Instalar PM2 para gerenciamento do processo Node.js
-    sudo npm install -g pm2
-
-    # Clonar o repositório
-    git clone https://github.com/nhyira-group5/websocket.git /home/ubuntu/websocket
-
-    # Navegar até o diretório do repositório clonado
-    cd /home/ubuntu/websocket
-
-    # Instalar dependências
-    npm install --force
+    # Adicionar o usuário 'ubuntu' ao grupo sudo
+    sudo usermod -aG sudo ubuntu  
 
     # Ajustar permissões
-    sudo chown -R ubuntu:ubuntu /home/ubuntu/websocket
+    sudo chown -R ubuntu:ubuntu /var/www/dist
 
-    # Iniciar a aplicação com PM2
-    pm2 start server.js --name websocket-app
+    # Instalar Node.js e npm
+    sudo apt-get install -y nodejs npm
+
+    # Clonar o repositório
+    git clone https://github.com/Food-Way/Web.git
+
+    # Navegar até o diretório do repositório clonado
+    cd /home/ubuntu/Web/foodway
+
+    # Instalar dependências
+    sudo npm i --force
+
+    # apagar dist anterior 
+    sudo rm -r /var/www/dist
+
+    # Executar build
+    sudo npm run build
+
+    # Copiar o diretório 'dist' para a pasta específica
+    sudo cp -r dist /var/www
+
+    # Ajustar permissões
+    sudo chown -R ubuntu:ubuntu /var/www
+
+    # Restartando nginx
+    sudo systemctl restart nginx1
   EOF
 }
+
 
 resource "aws_eip_association" "eip_assoc_01" {
   instance_id   = aws_instance.websocket_ec2_01.id

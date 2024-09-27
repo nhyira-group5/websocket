@@ -29,18 +29,18 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory:./infraNyira
+        working-directory: ./infraNhyira
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory:./infraNyira
+        working-directory: ./infraNhyira
 
       - name: Terraform Plan
         run: terraform plan
-        working-directory:./infraNyira
+        working-directory: ./infraNhyira
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory:./infraNyira
+        working-directory: ./infraNhyira
 
       

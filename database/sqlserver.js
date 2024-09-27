@@ -4,10 +4,10 @@ require('dotenv').config();
 const config = {
     user: process.env.SQLSERVER_USER,
     password: process.env.SQLSERVER_PASSWORD,
-    server: process.env.SQLSERVER_SERVER, // Endpoint do RDS
+    server: process.env.SQLSERVER_SERVER, 
     database: process.env.SQLSERVER_DATABASE,
     options: {
-        encrypt: process.env.SQLSERVER_ENCRYPT === 'true', // para conexões TLS/SSL
+        encrypt: process.env.SQLSERVER_ENCRYPT === 'true', 
         trustServerCertificate: process.env.SQLSERVER_TRUST_SERVER_CERTIFICATE === 'true', // apenas para desenvolvimento
         enableArithAbort: true,
         hostNameInCertificate: process.env.SQLSERVER_HOST_NAME_IN_CERTIFICATE,

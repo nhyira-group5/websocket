@@ -18,7 +18,7 @@ resource "aws_instance" "websocket_ec2_01" {
     Name = "websocket_ec2_01"
   }
 
-  user_data = <<-EOF
+   user_data = <<-EOF
     #!/bin/bash
 
     # Atualizar pacotes
@@ -34,15 +34,16 @@ resource "aws_instance" "websocket_ec2_01" {
     sudo apt-get install -y nodejs npm
 
     # Clonar o repositório
-    git clone https://github.com/nhyira-group5/websocket.git
+    git clone  https://github.com/nhyira-group5/websocket.git
+    
 
     # Navegar até o diretório do repositório clonado
-    cd /home/ubuntu/websocket
+    cd /home/ubuntu/Web/websocket
 
     # Instalar dependências
     sudo npm i --force
 
-    # Apagar dist anterior 
+    # apagar dist anterior 
     sudo rm -r /var/www/dist
 
     # Executar build
@@ -79,35 +80,42 @@ resource "aws_instance" "websocket_ec2_02" {
     Name = "websocket_ec2_02"
   }
 
-  user_data = <<-EOF
+    user_data = <<-EOF
     #!/bin/bash
 
     # Atualizar pacotes
     sudo apt-get update
 
     # Adicionar o usuário 'ubuntu' ao grupo sudo
-    sudo usermod -aG sudo ubuntu
+    sudo usermod -aG sudo ubuntu  
 
     # Ajustar permissões
-    sudo chown -R ubuntu:ubuntu /var/www
+    sudo chown -R ubuntu:ubuntu /var/www/dist
 
     # Instalar Node.js e npm
     sudo apt-get install -y nodejs npm
 
     # Clonar o repositório
-    git clone https://github.com/nhyira-group5/websocket.git
+    git clone  https://github.com/nhyira-group5/websocket.git
+    
 
     # Navegar até o diretório do repositório clonado
-    cd /home/ubuntu/websocket
+    cd /home/ubuntu/Web/websocket
 
     # Instalar dependências
     sudo npm i --force
+
+    # apagar dist anterior 
+    sudo rm -r /var/www/dist
 
     # Executar build
     sudo npm run build
 
     # Copiar o diretório 'dist' para a pasta específica
     sudo cp -r dist /var/www
+
+    # Ajustar permissões
+    sudo chown -R ubuntu:ubuntu /var/www
 
     # Restartando nginx
     sudo systemctl restart nginx

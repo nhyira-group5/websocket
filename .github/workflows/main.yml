@@ -1,4 +1,4 @@
-name: CI/CD Frontend - Nhyira
+name: CI/CD WebSocket - Nhyira
 
 on:
   push:
@@ -33,8 +33,7 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: ./infraNyira
-
+        working-directory:./infraNyira
 
       - name: Terraform Plan
         run: terraform plan
@@ -43,3 +42,29 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory:./infraNyira
+
+      # - name: Install terraform-docs
+      #   run: |
+      #     wget https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz
+      #     tar -xzf terraform-docs-v0.16.0-linux-amd64.tar.gz
+      #     sudo mv terraform-docs /usr/local/bin/
+
+      # - name: Render terraform docs
+      #   run: |
+      #     terraform-docs markdown --config ./foodway/.terraform-docs.yml --output-file README.md --output-mode inject ./foodway/src/infra
+
+      # - name: Configure Git
+      #   run: |
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      # - name: Add changes
+      #   run: git add README.md
+
+      # - name: Commit changes
+      #   run: git commit -m "Update Terraform docs"
+
+      # - name: Push changes
+      #   run: git push origin main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

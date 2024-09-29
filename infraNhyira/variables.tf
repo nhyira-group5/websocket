@@ -1,35 +1,35 @@
 variable "az" {  
   description = "Availability Zone"  
   type        = string  
-  default     = "us-east-1a"  # Ajuste para a zona de disponibilidade correta  
+  default     = "us-east-1a"  
 }
 
 variable "key_pair_name" {
   description = "Key Pair Name"
   type        = string
-  default     = "tf_key"  # Altere conforme necessário
+  default     = "tf_key"  
 }
 
 variable "ami" {
   description = "AMI ID"
   type        = string
-  default     = "ami-08c6a39626fa63ad7"  # Verifique se esta AMI é adequada para seu uso
+  default     = "ami-08c6a39626fa63ad7"  
 }
 
 variable "inst_type" {
   description = "Instance Type"
   type        = string
-  default     = "t2.micro"  # Ajuste conforme sua necessidade
+  default     = "t2.micro"  
 }
 
 variable "subnet_id" {
   description = "Subnet ID"
   type        = string
-  default     = "subnet-03538fa6c1081c33b"  # Atualize com o ID da sub-rede correta
+  default     = "subnet-03538fa6c1081c33b" 
 }
 
 variable "sg_id" {
   description = "Security Group ID"
   type        = string
-  default     = "sg-041d7ba94beddfa4e"  # Atualize com o ID do grupo de segurança correto
+  default     = "sg-041d7ba94beddfa4e" 
 }

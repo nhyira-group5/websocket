@@ -47,7 +47,7 @@ module.exports.findChatByUsuario = async (usuario) => {
   try {
     const pool = await poolPromise;
     const [chatEncontrado] = await pool.execute(
-      `SELECT chat_id FROM mensagem WHERE remetente_id = ? LIMIT 1`, // Adicionando crase para a string SQL
+      `SELECT chat_id FROM mensagem WHERE remetente_id = ? LIMIT 1`, 
       [usuario]
     );
     console.log("Chat Encontrado:", chatEncontrado);

@@ -9,8 +9,8 @@ const config = {
     waitForConnections: true, // aguardar por conexões disponíveis
     connectionLimit: 10, // número máximo de conexões permitidas
     queueLimit: 0 // número máximo de solicitações em fila
-};
-g
+}
+
 const poolPromise = mysql.createPool(config)
     .then(pool => {
         console.log('Connected to MySQL');

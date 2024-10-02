@@ -12,7 +12,7 @@ RUN sudo npm install --force
 
 
 # Instale o mysql2 se não estiver listado no package.json
- RUN npm install mysql2
+ RUN sudo npm install mysql2
 
 
 # Copie todo o código do aplicativo para o container

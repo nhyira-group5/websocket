@@ -26,5 +26,5 @@ initializePool();
 
 // Exportar o pool para ser usado em outros arquivos
 module.exports = {
-    getPool: () => pool,
+    getPool: () => pool,
 };

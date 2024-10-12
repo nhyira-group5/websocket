@@ -8,12 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instale as dependências do projeto
-RUN sudo npm install --force
-
+RUN npm ci --force
 
 # Instale o mysql2 se não estiver listado no package.json
- RUN sudo npm install mysql2
-
+RUN npm install mysql2
 
 # Copie todo o código do aplicativo para o container
 COPY . .

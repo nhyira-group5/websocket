@@ -1,35 +1,45 @@
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
-const service = require('./service/messageService');
+const express = require('express');  
+const http = require('http');  
+const { Server } = require('socket.io');  
+const cors = require('cors');  
+const service = require('./service/messageService');  
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use('/messages', require('./routes'));
+const app = express();  
 
-const server = http.createServer(app);
+// Configurando CORS para o Express  
+const corsOptions = {  
+  origin: 'http://vitalis-prod.zapto.org', // Permitindo a origem do seu aplicativo  
+  optionsSuccessStatus: 200 // Para suportar navegadores antigos  
+};  
 
-const io = new Server(server, {
-  cors: {
-   origin: 'http://54.147.107.121' // Substituindo pelo novo domínio
-  }
-});
+app.use(cors(corsOptions)); // Middleware CORS para todas as rotas  
+app.use(express.json());  
+app.use('/messages', require('./routes'));  
 
-io.on('connection', (socket) => {
-  console.log(`Usuário conectado: ${socket.id}`); // Corrigido para interpolação de string
-  
-  socket.on("send_message", async (data) => {
-    console.log(data);
-    
-    await service.registerMessage(data);
-    
-    // Emitindo a mensagem recebida para todos os outros sockets
-    socket.broadcast.emit("receive_message", data);
-  });
-});
+const server = http.createServer(app);  
 
-server.listen(3001, () => {
-  console.log('Servidor funcionando na porta 3001'); // Corrigido para interpolação de string
+// Configurando CORS para o Socket.IO  
+const io = new Server(server, {  
+  cors: {  
+    origin: 'http://vitalis-prod.zapto.org', // Permitir a origem correta  
+    methods: ['GET', 'POST'], // Métodos permitidos  
+    credentials: true // Se você usa cookies/autenticação  
+  }  
+});  
+
+io.on('connection', (socket) => {  
+  console.log(`Usuário conectado: ${socket.id}`);  
+
+  socket.on("send_message", async (data) => {  
+    console.log(data);  
+
+    await service.registerMessage(data);  
+
+    // Emitindo a mensagem recebida para todos os outros sockets  
+    socket.broadcast.emit("receive_message", data);  
+  });  
+});  
+
+server.listen(3001, () => {  
+  console.log('Servidor funcionando na porta 3001');  
 });

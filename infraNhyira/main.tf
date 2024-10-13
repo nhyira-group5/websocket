@@ -18,45 +18,44 @@ resource "aws_instance" "websocket_ec2_01" {
     Name = "websocket_ec2_01"
   }
 
-user_data = <<-EOF
-#!/bin/bash
+  user_data = <<-EOF
+    #!/bin/bash
 
-# Atualizar pacotes
-sudo apt-get update
+    # Atualizar pacotes
+    sudo apt-get update
 
-# Instalar git, Node.js e npm, se necessário
-which git || sudo apt-get install -y git
-which node || sudo apt-get install -y nodejs npm
+    # Instalar git, Node.js e npm, se necessário
+    which git || sudo apt-get install -y git
+    which node || sudo apt-get install -y nodejs npm
 
-# Clonar ou atualizar o repositório
-cd /home/ubuntu/websocket || {
-  git clone https://github.com/nhyira-group5/websocket.git /home/ubuntu/websocket
-}
+    # Criar a pasta se não existir
+    mkdir -p /home/ubuntu/websocket
 
-cd /home/ubuntu/websocket
-git pull origin main  # Atualiza o repositório
+    # Clonar ou atualizar o repositório
+    if [ ! -d "/home/ubuntu/websocket/.git" ]; then
+      sudo git clone https://github.com/nhyira-group5/websocket.git /home/ubuntu/websocket
+    else
+      cd /home/ubuntu/websocket
+      sudo git pull origin main  # Atualiza o repositório
+    fi
 
-# Instalar dependências
-npm ci
+    # Instalar o MySQL
+    sudo apt update
+    sudo apt install -y mysql-server
 
-# Apagar dist anterior
-sudo rm -rf /var/www/dist
+    cd /home/ubuntu/websocket
+    # Instalar dependências
+    sudo npm ci
 
-# Executar build
-npm run build
+    # (Opcional) Instalar o pm2 para gerenciar o processo Node.js
+    sudo npm install -g pm2
 
-# Copiar o diretório 'dist' para a pasta específica
-sudo cp -r dist /var/www
+    # Iniciar a aplicação Node.js
+    pm2 start app.js --name websocket --watch
 
-# Ajustar permissões para nginx (www-data)
-sudo chown -R www-data:www-data /var/www
-
-# Reiniciar nginx
-sudo systemctl restart nginx
-
-# Registrar logs
-echo "Script de inicialização concluído" | tee -a /var/log/user_data.log
-EOF
+    # Registrar logs
+    echo "Script de inicialização concluído" | tee -a /var/log/user_data.log
+  EOF
 }
 
 resource "aws_instance" "websocket_ec2_02" {
@@ -79,45 +78,40 @@ resource "aws_instance" "websocket_ec2_02" {
     Name = "websocket_ec2_02"
   }
 
-user_data = <<-EOF
-#!/bin/bash
+  user_data = <<-EOF
+    #!/bin/bash
 
-# Atualizar pacotes
-sudo apt-get update
+    # Atualizar pacotes
+    sudo apt-get update
 
-# Instalar git, Node.js e npm, se necessário
-which git || sudo apt-get install -y git
-which node || sudo apt-get install -y nodejs npm
+    # Instalar git, Node.js e npm, se necessário
+    which git || sudo apt-get install -y git
+    which node || sudo apt-get install -y nodejs npm
 
-# Clonar ou atualizar o repositório
-cd /home/ubuntu/websocket || {
-  git clone https://github.com/nhyira-group5/websocket.git /home/ubuntu/websocket
-}
+    # Criar a pasta se não existir
+    mkdir -p /home/ubuntu/websocket
 
-cd /home/ubuntu/websocket
-git pull origin main  # Atualiza o repositório
+    # Clonar ou atualizar o repositório
+    if [ ! -d "/home/ubuntu/websocket/.git" ]; then
+      sudo git clone https://github.com/nhyira-group5/websocket.git /home/ubuntu/websocket
+    else
+      cd /home/ubuntu/websocket
+      sudo git pull origin main  # Atualiza o repositório
+    fi
 
-# Instalar dependências
-npm ci
+    cd /home/ubuntu/websocket
+    # Instalar dependências
+    sudo npm ci
 
-# Apagar dist anterior
-sudo rm -rf /var/www/dist
+    # (Opcional) Instalar o pm2 para gerenciar o processo Node.js
+    sudo npm install -g pm2
 
-# Executar build
-npm run build
+    # Iniciar a aplicação Node.js
+    pm2 start app.js --name websocket --watch
 
-# Copiar o diretório 'dist' para a pasta específica
-sudo cp -r dist /var/www
-
-# Ajustar permissões para nginx (www-data)
-sudo chown -R www-data:www-data /var/www
-
-# Reiniciar nginx
-sudo systemctl restart nginx
-
-# Registrar logs
-echo "Script de inicialização concluído" | tee -a /var/log/user_data.log
-EOF
+    # Registrar logs
+    echo "Script de inicialização concluído" | tee -a /var/log/user_data.log
+  EOF
 }
 
 resource "aws_eip_association" "eip_assoc_01" {

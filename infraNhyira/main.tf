@@ -78,7 +78,7 @@ resource "aws_instance" "websocket_ec2_02" {
     Name = "websocket_ec2_02"
   }
 
-  user_data = <<-EOF
+ user_data = <<-EOF
     #!/bin/bash
 
     # Atualizar pacotes
@@ -99,6 +99,10 @@ resource "aws_instance" "websocket_ec2_02" {
       sudo git pull origin main  # Atualiza o repositório
     fi
 
+    # Instalar o MySQL
+    sudo apt update
+    sudo apt install -y mysql-server
+
     cd /home/ubuntu/websocket
     # Instalar dependências
     sudo npm ci
@@ -114,12 +118,13 @@ resource "aws_instance" "websocket_ec2_02" {
   EOF
 }
 
+
 resource "aws_eip_association" "eip_assoc_01" {
   instance_id   = aws_instance.websocket_ec2_01.id
-  allocation_id = "eipalloc-0b33881f72855426a"  
+  allocation_id = "eipalloc-0f2edd93ca919dde7"  
 }
 
 resource "aws_eip_association" "eip_assoc_02" {
   instance_id   = aws_instance.websocket_ec2_02.id
-  allocation_id = "eipalloc-01952682e36b66c07"  
+  allocation_id = "eipalloc-0c3825a07f6c5ab48"  
 }

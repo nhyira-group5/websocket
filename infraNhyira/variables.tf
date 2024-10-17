@@ -13,7 +13,7 @@ variable "key_pair_name" {
 variable "ami" {
   description = "AMI ID"
   type        = string
-  default     = "ami-08c6a39626fa63ad7"  
+  default     = "ami-048c8cb78e740889"  
 }
 
 variable "inst_type" {
@@ -25,11 +25,11 @@ variable "inst_type" {
 variable "subnet_id" {
   description = "Subnet ID"
   type        = string
-  default     = "subnet-03538fa6c1081c33b" 
+  default     = "subnet-0a2e3d5e57607184c" 
 }
 
 variable "sg_id" {
   description = "Security Group ID"
   type        = string
-  default     = "sg-041d7ba94beddfa4e" 
+  default     = "sg-08a6c790338e94c72" 
 }

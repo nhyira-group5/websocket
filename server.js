@@ -8,7 +8,8 @@ const app = express();
 
 // Configurando CORS para o Express  
 const corsOptions = {  
-  origin: 'http://vitalis-prod.zapto.org', // Permitindo a origem do seu aplicativo  
+  // origin: 'http://vitalis-prod.zapto.org',
+  origin: 'http://nhyira-prod.zapto.org',// Permitindo a origem do seu aplicativo  
   optionsSuccessStatus: 200 // Para suportar navegadores antigos  
 };  
 
@@ -21,7 +22,7 @@ const server = http.createServer(app);
 // Configurando CORS para o Socket.IO  
 const io = new Server(server, {  
   cors: {  
-    origin: 'http://vitalis-prod.zapto.org', // Permitir a origem correta  
+    origin: 'http://nhyira-prod.zapto.org', // Permitir a origem correta  
     methods: ['GET', 'POST'], // Métodos permitidos  
     credentials: true // Se você usa cookies/autenticação  
   }  

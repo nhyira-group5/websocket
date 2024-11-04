@@ -61,6 +61,6 @@ resource "aws_instance" "websocket_ec2_01" {
 
 resource "aws_eip_association" "eip_assoc_01" {
   instance_id   = aws_instance.websocket_ec2_01.id
-  allocation_id = "eipalloc-0f2edd93ca919dde7"  
+  allocation_id = "eipalloc-01c12d8f8fd81ef4f"  
 }
 

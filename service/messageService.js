@@ -4,11 +4,11 @@ const { getPool } = require("../database/mysql");
 module.exports.registerMessage = async (message) => {
     const pool = getPool(); // Obter o pool de conexões
 
-    // Debug: Logar os dados da mensagem antes de executar a consulta
+   
     console.log("Dados da mensagem:", message);
 
-    // Mockando destinatario_id para 3 se não estiver definido
-    const destinatarioId = message.destinatario_id !== undefined ? message.destinatario_id : 3; // Define como 3 se for undefined
+
+    const destinatarioId = message.destinatario_id !== undefined ? message.destinatario_id : 3; 
 
     try {
         const [result] = await pool.execute(
@@ -16,7 +16,7 @@ module.exports.registerMessage = async (message) => {
             [
                 message.chat_id,
                 message.remetente_id,
-                destinatarioId, // Aqui usamos destinatarioId que foi definido
+                destinatarioId,
                 message.assunto
             ]
         );
@@ -28,11 +28,11 @@ module.exports.registerMessage = async (message) => {
 };
 
 module.exports.findByChat = async (chatId) => {
-    const pool = getPool(); // Obter o pool de conexões
+    const pool = getPool(); 
 
     try {
         const [messages] = await pool.execute(
-            `SELECT * FROM mensagem WHERE chat_id = ?`, // Aqui também coloquei a consulta SQL entre crases
+            `SELECT * FROM mensagem WHERE chat_id = ?`, 
             [chatId]
         );
         return messages;
@@ -42,7 +42,7 @@ module.exports.findByChat = async (chatId) => {
     }
 };
 module.exports.findChatByUsuario = async (usuario) => {
-    const pool = getPool(); // Obter o pool de conexões
+    const pool = getPool(); 
 
     try {
         const [chatEncontrado] = await pool.execute(

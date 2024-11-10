@@ -6,25 +6,24 @@ const service = require('./service/messageService');
 
 const app = express();  
 
-// Configurando CORS para o Express  
+
 const corsOptions = {  
-  // origin: 'http://vitalis-prod.zapto.org',
-  origin: 'http://vitalis-uat.zapto.org',// Permitindo a origem do seu aplicativo  
-  optionsSuccessStatus: 200 // Para suportar navegadores antigos  
+  origin: 'http://vitalis-uat.zapto.org',
+  optionsSuccessStatus: 200
 };  
 
-app.use(cors(corsOptions)); // Middleware CORS para todas as rotas  
+app.use(cors(corsOptions)); 
 app.use(express.json());  
 app.use('/messages', require('./routes'));  
 
 const server = http.createServer(app);  
 
-// Configurando CORS para o Socket.IO  
+ 
 const io = new Server(server, {  
   cors: {  
-    origin: 'http://vitalis-uat.zapto.org', // Permitir a origem correta  
-    methods: ['GET', 'POST'], // Métodos permitidos  
-    credentials: true // Se você usa cookies/autenticação  
+    origin: 'http://vitalis-uat.zapto.org', 
+    methods: ['GET', 'POST'],  
+    credentials: true  
   }  
 });  
 
@@ -36,7 +35,7 @@ io.on('connection', (socket) => {
 
     await service.registerMessage(data);  
 
-    // Emitindo a mensagem recebida para todos os outros sockets  
+   
     socket.broadcast.emit("receive_message", data);  
   });  
 });  
